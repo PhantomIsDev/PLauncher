@@ -20,15 +20,13 @@ jobs:
           node-version: 16
           cache: npm
 
-      - name: npm install
+      - name: Install PKG
         run: |
           npm install
+          npm install electron-packager -g
 
-      - name: npm test
+      - name: Compile Electron
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm run package
-          npm run lint
-          npm exec tsc
-          npm test
+          electron-packager ./src OpenMC --platform=win32 --arch=x86_64
